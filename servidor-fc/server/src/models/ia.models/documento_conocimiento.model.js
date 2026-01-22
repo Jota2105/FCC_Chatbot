@@ -13,7 +13,7 @@ class DocumentoConocimiento extends Model {
         };
     }
 
-    // ▼▼▼ AGREGAR ESTO ▼▼▼
+    
     static associate(models) {
         // Un documento tiene muchos segmentos vectoriales
         this.hasMany(models.SegmentoVector, {
@@ -21,7 +21,7 @@ class DocumentoConocimiento extends Model {
             as: 'segmentos'
         });
     }
-    // ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
+    
 }
 
 const DocumentoConocimientoSchema = {

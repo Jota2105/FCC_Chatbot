@@ -1,6 +1,6 @@
 const express = require('express');
 
-const iaRouter = require('./ia.routes');
+const iaRouter = require('../chatservidor.routes/bot_interno.routes');
 
 function setupIARoutes(router) {
   

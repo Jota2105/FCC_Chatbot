@@ -31,6 +31,7 @@ import { getHistorias } from "../services/historiaServices";
 import { getAllAtenciones } from "../services/atencion";
 import Auditoria from "../modules/auditoria/view/Auditoria";
 
+
 const menuData = [
   {
     nombre_menu: "Pacientes",
@@ -242,7 +243,7 @@ const Dashboard = () => {
     );
   }
 
-  return (
+  return (    
     <Box
       sx={{
         display: "flex",
@@ -403,7 +404,9 @@ const Dashboard = () => {
         </Fade>
       </HelpModal>
     </Box>
+    
   );
+  
 };
 
 export default Dashboard;

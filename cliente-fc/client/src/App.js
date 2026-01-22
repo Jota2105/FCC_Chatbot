@@ -26,7 +26,9 @@ import ExportarAuditorias from './modules/auditoria/componets/exportarAuditoria'
 import ComunidadModule from './modules/comunidad';
 import NormativaModule from './modules/normativa';
 import ProcesoModule from './modules/proceso';
-
+/*import AsistenteInternoView from './modules/asistente/views/AsistenteInternoView';*/
+import IADashboard from './modules/asistente/views/IADashboard';
+import GestionConocimientoView from './modules/asistente/views/GestionConocimientoView';
 
 // ✅ Importa el chatbot
 import { ChatBotIA } from './components/ChatBotIA';
@@ -75,8 +77,16 @@ function App() {
               element={<PrivateRoute element={NuevaAtencionMedica} allowedRoles={['admin', 'doctor',  'personal_salud']} />} 
             />
             <Route 
+              path="/fcc-asistente-ia" 
+              element={<PrivateRoute element={IADashboard} allowedRoles={['admin']} />} 
+            />
+            <Route 
               path="/fcc-configuracion" 
               element={<PrivateRoute element={Configuracion} allowedRoles={['admin', 'personal_salud']} />} 
+            />
+            <Route 
+              path="/fcc-asistente-ia/conocimiento" 
+              element={<PrivateRoute element={GestionConocimientoView} allowedRoles={['admin']} />} 
             />
             <Route 
               path="/fcc-usuarios" 
@@ -85,7 +95,7 @@ function App() {
             <Route 
               path="/fcc-historias-clinicas" 
               element={<PrivateRoute element={Historia} allowedRoles={['admin', 'doctor', 'personal_salud']} />} 
-            />
+            />            
             <Route 
               path="/fcc-terapias" 
               element={<PrivateRoute element={Terapia} allowedRoles={['admin', 'doctor', 'personal_salud']} />} 
@@ -119,6 +129,7 @@ function App() {
               path="/fcc-comunidad/*"
               element={<PrivateRoute element={ComunidadModule} allowedRoles={['admin']} />} 
             />
+            
             <Route 
               path="/accessdenied"
               element={<AccessDenied />}

@@ -4,7 +4,7 @@ const setupCie11Routes = require('./cie11.routes');
 const path = require('path');
 const setupAuthRoutes = require('./auth.routes');
 const setupUploadsRoutes = require('./setupUploadsRoutes');
-const setupIARoutes = require('./ia.routes')
+
 
 
 const setupComunidadRoutes = require('./comunidad.routes');
@@ -188,7 +188,7 @@ function routerApi(app) {
   setupDocumentacionRoutes(router)
   setupDonacionesRoutes(router)
   setupOpenAiRoutes(router);
-  setupIARoutes(router);
+  
 }
 
 module.exports = routerApi;

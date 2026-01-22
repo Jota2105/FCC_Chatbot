@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useRef} from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import {
   Box, Drawer, List, Divider, ListItem, ListItemButton, ListItemIcon,
   ListItemText, IconButton, CircularProgress, Chip, Fade, Skeleton,
@@ -20,7 +20,8 @@ import {
   AdminPanelSettings as AdminPanelSettingsIcon,
   Group as GroupIcon,
   MedicalInformation as MedicalInformationIcon,
-  KeyboardArrowDown as KeyboardArrowDownIcon
+  KeyboardArrowDown as KeyboardArrowDownIcon,
+  SmartToy as SmartToyIcon // <--- 1. NUEVO IMPORT AQUÍ
 } from '@mui/icons-material';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { getUserInfo } from '../services/authServices';
@@ -62,7 +63,7 @@ export default function ResponsiveDrawer({ open, onClose }) {
 
   const handleScroll = () => {
     if (listRef.current) {
-      listRef.current.scrollTop += 100; // Ajusta este valor según sea necesario
+      listRef.current.scrollTop += 100;
     }
   };
 
@@ -132,8 +133,10 @@ export default function ResponsiveDrawer({ open, onClose }) {
       subItems: [
         { text: 'Usuarios', path: '/fcc-usuarios', icon: <GroupIcon /> },
         { text: 'Personal Salud', path: '/fcc-personal-salud', icon: <MedicalInformationIcon /> },
-        {text: 'Auditoría', path: '/fcc-auditoria', icon: <AssignmentTurnedInIcon/>},
+        { text: 'Auditoría', path: '/fcc-auditoria', icon: <AssignmentTurnedInIcon/> },
         { text: 'Comunidad', path: '/fcc-comunidad', icon: <GroupIcon /> },
+        // --- 2. NUEVO ITEM AQUÍ ---
+        { text: 'Asistente IA', path: '/fcc-asistente-ia', icon: <SmartToyIcon /> }, 
       ]
     },
     { text: 'Perfil', path: '/perfil', icon: <AccountCircleIcon /> },
@@ -271,7 +274,7 @@ export default function ResponsiveDrawer({ open, onClose }) {
           />
         </Fade>
       )}
-<Drawer
+      <Drawer
         variant={isSmallScreen ? 'temporary' : 'permanent'}
         open={isSmallScreen ? open : true}
         onClose={onClose}
@@ -287,7 +290,7 @@ export default function ResponsiveDrawer({ open, onClose }) {
               duration: theme.transitions.duration.shortest,
             }),
             overflowX: 'hidden',
-            overflowY: 'hidden', // Ocultar la barra de desplazamiento vertical
+            overflowY: 'hidden',
           },
         }}
       >

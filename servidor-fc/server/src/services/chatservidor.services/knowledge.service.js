@@ -1,5 +1,5 @@
 const fs = require('fs');
-const pdf = require('pdf-parse'); // Con la instalación correcta, esto YA NO FALLARÁ
+const pdf = require('pdf-parse'); 
 const { OpenAI } = require('openai');
 const { models } = require('../../libs/sequelize');
 const sequelize = require('../../libs/sequelize'); 
@@ -26,7 +26,7 @@ class KnowledgeService {
             // 2. Extraer texto del PDF
             const dataBuffer = fs.readFileSync(file.path);
             
-            // Al usar pdf-parse@1.1.1, esto es una función simple
+            // pdf-parse@1.1.1 función simple
             const data = await pdf(dataBuffer); 
             
             const textoLimpio = data.text.replace(/\n/g, " ").replace(/\s+/g, " ");
@@ -70,7 +70,7 @@ class KnowledgeService {
         } catch (error) {
             await t.rollback();
             console.error("Error ingestando doc:", error);
-            // Intentar marcar como error sin romper la app
+            // marcar como error sin romper la app
             try { 
                 const docError = await models.DocumentoConocimiento.findOne({ where: { nombre_archivo: file.filename }});
                 if(docError) await docError.update({ estado: 'ERROR' });

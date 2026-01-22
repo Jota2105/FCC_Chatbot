@@ -13,7 +13,7 @@ class SegmentoVector extends Model {
         };
     }
 
-    // ▼▼▼ AGREGAR ESTO ▼▼▼
+    
     static associate(models) {
         this.belongsTo(models.DocumentoConocimiento, {
             foreignKey: 'documento_id',
