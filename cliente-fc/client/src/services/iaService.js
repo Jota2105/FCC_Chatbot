@@ -2,7 +2,7 @@ import axios from 'axios';
 import { API_URL } from './apiConfig';
 
 // La ruta base debe coincidir con lo que definimos en el backend (chatservidor)
-const IA_API_URL = `${API_URL}/chatservidor/asistente`;
+const IA_API_URL = `${API_URL}/asistente`;
 
 const consultarAsistente = async (data) => {
   // data espera: { mensaje, sessionId }
