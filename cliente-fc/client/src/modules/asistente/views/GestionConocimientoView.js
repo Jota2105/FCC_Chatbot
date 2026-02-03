@@ -1,18 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import {
-  Box, Typography, Button, TextField, Paper, Alert, CircularProgress,
+  Box, Typography, Button, TextField, Paper, Alert, CircularProgress, IconButton,
   List, ListItem, ListItemIcon, ListItemText, Divider
 } from "@mui/material";
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import NavbarAdmin from "../../../components/NavbarAdmin";
 import Drawer from "../../../components/Drawer";
 import { useMenu } from '../../../components/base/MenuContext';
 import iaService from '../../../services/iaService';
+import { useNavigate } from 'react-router-dom';
+
 
 const GestionConocimientoView = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const { setCurrentMenu } = useMenu();
+  const navigate = useNavigate();
   
   // Estados de subida
   const [tituloDoc, setTituloDoc] = useState("");
@@ -62,6 +66,14 @@ const GestionConocimientoView = () => {
       
       <Box component="main" sx={{ flexGrow: 1, p: 3, mt: 8, width: { md: `calc(100% - 240px)` } }}>
         <Paper elevation={3} sx={{ p: 4, maxWidth: 800, mx: 'auto', borderRadius: 2 }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+            <IconButton onClick={() => navigate(-1)} aria-label="Regresar">
+              <ArrowBackIcon />
+            </IconButton>
+            <Typography variant="subtitle1" sx={{ ml: 1, color: 'text.secondary' }}>
+              Regresar
+            </Typography>
+          </Box>
           <Typography variant="h5" gutterBottom sx={{ fontWeight: 'bold', color: 'primary.main' }}>
             Subir Nuevo Documento
           </Typography>

@@ -19,12 +19,11 @@ class BotInternoService {
         const vectorPregunta = `[${embeddingResp.data[0].embedding.join(',')}]`;
 
         // 2. Buscar en BD (Esquema fcc_ia)
-        const [contextos] = await sequelize.query(`
-            SELECT contenido, documento_id 
-            FROM fcc_ia.ia_segmentos_vector 
-            ORDER BY embedding <-> '${vectorPregunta}' 
-            LIMIT 4;
-        `);
+        const contextos = await models.SegmentoVector.findAll({
+            attributes: ['contenido', 'documento_id'],
+            order: [sequelize.literal(`embedding <-> ${sequelize.escape(vectorPregunta)}`)],
+            limit: 4
+        });
 
         const textoContexto = contextos.map(c => c.contenido).join("\n---\n");
 

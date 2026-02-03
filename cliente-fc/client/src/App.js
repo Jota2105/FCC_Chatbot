@@ -29,6 +29,7 @@ import ProcesoModule from './modules/proceso';
 /*import AsistenteInternoView from './modules/asistente/views/AsistenteInternoView';*/
 import IADashboard from './modules/asistente/views/IADashboard';
 import GestionConocimientoView from './modules/asistente/views/GestionConocimientoView';
+import HistorialIAView from './modules/asistente/views/HistorialIAView';
 
 // ✅ Importa el chatbot
 import { ChatBotIA } from './components/ChatBotIA';
@@ -87,6 +88,10 @@ function App() {
             <Route 
               path="/fcc-asistente-ia/conocimiento" 
               element={<PrivateRoute element={GestionConocimientoView} allowedRoles={['admin']} />} 
+            />
+            <Route 
+              path="/fcc-asistente-ia/historial" 
+              element={<PrivateRoute element={HistorialIAView} allowedRoles={['admin']} />} 
             />
             <Route 
               path="/fcc-usuarios" 
