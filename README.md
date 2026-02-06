@@ -13,7 +13,8 @@ Instala lo siguiente en tu equipo:
 
 ---
 
-## 2. Clonar el repositorio
+## 2. Clonar el repositorio o descomprime el ZIP
+
 
 ```bash
 git clone <URL_DEL_REPOSITORIO>
@@ -113,6 +114,10 @@ http://localhost:5000/api/fcc
 ```
 http://localhost:3000
 ```
+### Esquemas de la BDD
+
+Si se requiere, cambiar el esquema fcc_ia a fcc_historiaclinica, para 
+crear las tablas en el esquema principal
 
 ---
 
