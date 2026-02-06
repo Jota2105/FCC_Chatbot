@@ -3,6 +3,7 @@ import { Box, Grid, Typography, Container } from '@mui/material';
 import Card from '../../../components/Card'; 
 import DescriptionIcon from '@mui/icons-material/Description';
 import HistoryIcon from '@mui/icons-material/History';
+import SupportAgentIcon from '@mui/icons-material/SupportAgent';
 import { useNavigate } from 'react-router-dom';
 import NavbarAdmin from "../../../components/NavbarAdmin";
 import Drawer from "../../../components/Drawer";
@@ -35,6 +36,13 @@ const IADashboard = () => {
       icon: <HistoryIcon sx={{ fontSize: 40, color: 'white' }} />,
       color: '#4caf50',
       path: '/fcc-asistente-ia/historial'
+    },
+    {
+      title: 'Asesoramiento Virtual',
+      description: 'Canal de consultas para procesos, trámites y gestión interna.',
+      icon: <SupportAgentIcon sx={{ fontSize: 40, color: 'white' }} />,
+      color: '#6a1b9a',
+      path: '/fcc-asistente-ia/asesoramiento'
     }
   ];
 

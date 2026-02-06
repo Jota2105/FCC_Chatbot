@@ -15,9 +15,22 @@ const subirConocimiento = async (formData) => {
   return await axios.post(`${IA_API_URL}/upload-conocimiento`, formData);
 };
 
+const getHistorial = async (params) => {
+  return await axios.get(`${IA_API_URL}/historial`, { params });
+};
+
+const getHistorialReporte = async (params) => {
+  return await axios.get(`${IA_API_URL}/historial/reporte`, {
+    params,
+    responseType: 'blob'
+  });
+};
+
 const iaService = {
   consultarAsistente,
   subirConocimiento,
+  getHistorial,
+  getHistorialReporte,
 };
 
 export default iaService;
