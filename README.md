@@ -1,5 +1,158 @@
-# CODIGO_PPP_V2
-Version 2 desde cero #modo rapido y furioso
+# Guía completa para ejecutar la aplicación en tu equipo (local)
+
+Esta guía explica **paso a paso** cómo levantar el frontend y el backend de FCC en un entorno local.
+
+---
+
+## 1. Requisitos previos
+
+Instala lo siguiente en tu equipo:
+- **Node.js** v16+  
+- **NPM** v8+  
+- **PostgreSQL** v12+  
+
+---
+
+## 2. Clonar el repositorio
+
+```bash
+git clone <URL_DEL_REPOSITORIO>
+cd FCC_Chatbot
+```
+
+---
+
+## 3. Configurar base de datos
+
+### 3.1 Crear base de datos
+```sql
+CREATE DATABASE fcc_db;
+```
+
+### 3.2 Configurar variables de entorno
+Crea un archivo `.env` en:
+```
+servidor-fc/server/.env
+```
+
+Ejemplo:
+```env
+PORT=5000
+DB_HOST=localhost
+DB_USER=postgres
+DB_PASSWORD=tu_password
+DB_NAME=fcc_db
+DB_PORT=5432
+OPENAI_API_KEY=tu_api_key
+```
+
+---
+
+## 4. Instalar dependencias
+
+### Backend
+```bash
+cd servidor-fc/server
+npm install
+```
+
+### Frontend
+```bash
+cd ../../cliente-fc/client
+npm install
+```
+
+---
+
+## 5. Ejecutar migraciones (si aplica)
+
+Si el proyecto usa Sequelize migrations:
+```bash
+cd servidor-fc/server
+npx sequelize-cli db:migrate
+```
+
+---
+
+## 6. Levantar backend
+
+```bash
+cd servidor-fc/server
+npm run dev
+```
+
+Servidor estará disponible en:
+```
+http://localhost:5000
+```
+
+---
+
+## 7. Levantar frontend
+
+```bash
+cd cliente-fc/client
+npm start
+```
+
+Frontend estará disponible en:
+```
+http://localhost:3000
+```
+
+---
+
+## 8. Verificación rápida
+
+✅ Backend activo:  
+```
+http://localhost:5000/api/fcc
+```
+
+✅ Frontend activo:  
+```
+http://localhost:3000
+```
+
+---
+
+## 9. Endpoints principales (resumen)
+
+- **Chat público**: `POST /api/fcc/chat`
+- **Chat IA interno**: `POST /api/fcc/chatservidor/asistente/consultar`
+- **Ingestión de documentos**: `POST /api/fcc/chatservidor/asistente/upload-conocimiento`
+- **Historial IA**: `GET /api/fcc/chatservidor/asistente/historial`
+- **Capacitaciones**: `GET /api/fcc/capacitacion`
+
+---
+
+## 10. Solución de problemas comunes
+
+### Error de conexión a BD
+Verifica:
+- credenciales en `.env`
+- que PostgreSQL esté activo
+
+### Error OpenAI
+Verifica:
+- API Key válida en `.env`
+- conexión a internet
+
+### Error de CORS o API
+Revisar que frontend esté apuntando a `http://localhost:5000`
+
+---
+
+## 11. Estructura básica del repositorio
+
+```
+FCC_Chatbot/
+├── cliente-fc/   → Frontend (React)
+├── servidor-fc/  → Backend (Node/Express)
+├── docs/         → Documentación
+```
+
+---
 
 ## Auditoría del Sistema
 
