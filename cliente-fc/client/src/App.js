@@ -26,10 +26,12 @@ import ExportarAuditorias from './modules/auditoria/componets/exportarAuditoria'
 import ComunidadModule from './modules/comunidad';
 import NormativaModule from './modules/normativa';
 import ProcesoModule from './modules/proceso';
+import CapacitacionesModule from './modules/capacitaciones';
 /*import AsistenteInternoView from './modules/asistente/views/AsistenteInternoView';*/
 import IADashboard from './modules/asistente/views/IADashboard';
 import GestionConocimientoView from './modules/asistente/views/GestionConocimientoView';
 import HistorialIAView from './modules/asistente/views/HistorialIAView';
+import AsesoramientoView from './modules/asistente/views/AsesoramientoView';
 
 // ✅ Importa el chatbot
 import { ChatBotIA } from './components/ChatBotIA';
@@ -94,6 +96,10 @@ function App() {
               element={<PrivateRoute element={HistorialIAView} allowedRoles={['admin']} />} 
             />
             <Route 
+              path="/fcc-asistente-ia/asesoramiento" 
+              element={<PrivateRoute element={AsesoramientoView} allowedRoles={['admin']} />} 
+            />
+            <Route 
               path="/fcc-usuarios" 
               element={<PrivateRoute element={Usuarios} allowedRoles={['admin']} />} 
             />
@@ -121,6 +127,10 @@ function App() {
             <Route 
               path="/fcc-exportar-auditoria"
               element={<PrivateRoute element={ExportarAuditorias} allowedRoles={['admin']} />} 
+            />
+            <Route
+              path="/fcc-capacitaciones*"              
+              element={<PrivateRoute element={CapacitacionesModule} allowedRoles={['admin']} />}
             />
             <Route 
               path="/fcc-normativa/*"

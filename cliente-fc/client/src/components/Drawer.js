@@ -21,7 +21,8 @@ import {
   Group as GroupIcon,
   MedicalInformation as MedicalInformationIcon,
   KeyboardArrowDown as KeyboardArrowDownIcon,
-  SmartToy as SmartToyIcon // <--- 1. NUEVO IMPORT AQUÍ
+  SmartToy as SmartToyIcon,
+  School as SchoolIcon,
 } from '@mui/icons-material';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { getUserInfo } from '../services/authServices';
@@ -135,7 +136,8 @@ export default function ResponsiveDrawer({ open, onClose }) {
         { text: 'Personal Salud', path: '/fcc-personal-salud', icon: <MedicalInformationIcon /> },
         { text: 'Auditoría', path: '/fcc-auditoria', icon: <AssignmentTurnedInIcon/> },
         { text: 'Comunidad', path: '/fcc-comunidad', icon: <GroupIcon /> },
-        // --- 2. NUEVO ITEM AQUÍ ---
+        { text: 'Capacitaciones', path: '/fcc-capacitaciones', icon: <SchoolIcon /> },
+        
         { text: 'Asistente IA', path: '/fcc-asistente-ia', icon: <SmartToyIcon /> }, 
       ]
     },
