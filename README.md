@@ -117,7 +117,7 @@ http://localhost:3000
 ### Esquemas de la BDD
 
 Si se requiere, cambiar el esquema fcc_ia a fcc_historiaclinica, para 
-crear las tablas en el esquema principal
+crear las tablas de los modulos de IA Chatbot Servidor en el esquema principal
 
 ---
 
