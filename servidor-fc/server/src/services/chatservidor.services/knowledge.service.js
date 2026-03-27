@@ -70,7 +70,7 @@ class KnowledgeService {
         } catch (error) {
             await t.rollback();
             console.error("Error ingestando doc:", error);
-            // marcar como error sin romper la app
+            // marcar como error 
             try { 
                 const docError = await models.DocumentoConocimiento.findOne({ where: { nombre_archivo: file.filename }});
                 if(docError) await docError.update({ estado: 'ERROR' });
@@ -90,3 +90,4 @@ class KnowledgeService {
 }
 
 module.exports = KnowledgeService;
+

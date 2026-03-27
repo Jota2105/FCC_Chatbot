@@ -6,14 +6,17 @@ import {
   IconButton,
   Paper,
   TextField,
-  Typography
+  Typography,
+  Tooltip
 } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import NavbarAdmin from "../../../components/NavbarAdmin";
 import Drawer from "../../../components/Drawer";
 import { useMenu } from '../../../components/base/MenuContext';
 import { useNavigate } from 'react-router-dom';
 import iaService from '../../../services/iaService';
+import jsPDF from 'jspdf';
 
 const AsesoramientoView = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -27,6 +30,45 @@ const AsesoramientoView = () => {
   const chatEndRef = useRef(null);
 
   const handleDrawerToggle = () => setDrawerOpen(!drawerOpen);
+
+  // --- FUNCIÓN PARA GENERAR PDF ---
+  const generarPDF = (textoRespuesta) => {
+    const doc = new jsPDF();
+    
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(16);
+    doc.setTextColor(46, 125, 50); 
+    doc.text("Fundación Con Cristo", 20, 20);
+    
+    doc.setFontSize(14);
+    doc.setTextColor(0, 0, 0); 
+    doc.text("Reporte de Asesoramiento Interno", 20, 30);
+    
+    doc.setLineWidth(0.5);
+    doc.line(20, 35, 190, 35); 
+    
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(11);
+    
+    const lineasTexto = doc.splitTextToSize(textoRespuesta, 170); 
+    let y = 45; 
+    
+    for (let i = 0; i < lineasTexto.length; i++) {
+      if (y > 280) { 
+        doc.addPage();
+        y = 20;
+      }
+      doc.text(lineasTexto[i], 20, y);
+      y += 7; 
+    }
+    
+    const fecha = new Date().toLocaleString();
+    doc.setFontSize(9);
+    doc.setTextColor(150, 150, 150);
+    doc.text(`Generado el: ${fecha}`, 20, 290);
+    
+    doc.save("Asesoramiento_Interno_FCC.pdf");
+  };
 
   useEffect(() => {
     setCurrentMenu('Asesoramiento Virtual');
@@ -99,12 +141,35 @@ const AsesoramientoView = () => {
                     p: 2,
                     borderRadius: 2,
                     bgcolor: msg.sender === 'user' ? 'primary.main' : 'grey.100',
-                    color: msg.sender === 'user' ? 'primary.contrastText' : 'text.primary'
+                    color: msg.sender === 'user' ? 'primary.contrastText' : 'text.primary',
+                    position: 'relative'
                   }}
                 >
-                  <Typography variant="body2" sx={{ whiteSpace: 'pre-wrap' }}>
+                  <Typography variant="body2" sx={{ whiteSpace: 'pre-wrap', mb: msg.sender === 'bot' && index !== 0 ? 3 : 0 }}>
                     {msg.text}
                   </Typography>
+
+                  {/* BOTÓN PDF */}
+                  {msg.sender === 'bot' && index !== 0 && (
+                    <Box sx={{ 
+                      position: 'absolute', 
+                      bottom: 4, 
+                      right: 8,
+                      display: 'flex', 
+                      justifyContent: 'flex-end'
+                    }}>
+                      <Tooltip title="Descargar Respuesta en PDF">
+                        <Button 
+                          size="small" 
+                          startIcon={<PictureAsPdfIcon />} 
+                          onClick={() => generarPDF(msg.text)}
+                          sx={{ color: '#d32f2f', textTransform: 'none', fontSize: '0.70rem', minWidth: 'auto', p: 0.5 }}
+                        >
+                          Exportar
+                        </Button>
+                      </Tooltip>
+                    </Box>
+                  )}
                 </Box>
               </Box>
             ))}

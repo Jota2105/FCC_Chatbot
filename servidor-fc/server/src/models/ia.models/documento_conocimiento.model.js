@@ -28,7 +28,7 @@ const DocumentoConocimientoSchema = {
     id: { allowNull: false, autoIncrement: true, primaryKey: true, type: DataTypes.BIGINT },
     titulo: { type: DataTypes.STRING, allowNull: false },
     nombre_archivo: { type: DataTypes.STRING, allowNull: false },
-    tipo_mime: { type: DataTypes.STRING }, // Agregué esto que faltaba en el schema anterior
+    tipo_mime: { type: DataTypes.STRING }, 
     estado: { type: DataTypes.STRING, defaultValue: 'PENDIENTE' }
 };
 

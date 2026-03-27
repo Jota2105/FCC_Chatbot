@@ -1,4 +1,4 @@
-import { API_URL } from './apiConfig'; // O lo de axios
+import { API_URL } from './apiConfig'; 
 
 const getByInteraccion = async (interaccionId) => {
   const response = await fetch(`${API_URL}/comunidad/documentos/interaccion/${interaccionId}`);
@@ -8,7 +8,7 @@ const getByInteraccion = async (interaccionId) => {
 const create = async (interaccionId, formData) => {
   const response = await fetch(`${API_URL}/comunidad/documentos/interaccion/${interaccionId}`, {
     method: 'POST',
-    body: formData, // No poner Content-Type header manualmente, fetch lo hace al ver FormData
+    body: formData, 
   });
   return response.json();
 };

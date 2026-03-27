@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { 
   Box, 
   IconButton, 
@@ -47,6 +48,8 @@ export const ChatBotIA = () => {
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const messagesEndRef = useRef(null);
+  
+  const location = useLocation();
 
   // --- DETECCIÓN DE USUARIO CORREGIDA ---
   useEffect(() => {
@@ -59,50 +62,42 @@ export const ChatBotIA = () => {
         console.warn("Error leyendo sesión:", e);
       }
 
-      // Respaldo de localStorage
       if (!user) {
         const stored = localStorage.getItem('userInfo');
         if (stored) user = JSON.parse(stored);
       }
 
-      console.log("--> 🤖 DATOS DE USUARIO:", user);
-
-      
-      // Verificamos si existe el objeto user
       if (user) {
-        // Buscamos el rol en cualquiera de las propiedades posibles
-        // Tu log dice 'rol_usuario', pero dejamos 'rol' por si acaso
-        const rawRole = user.rol_usuario || user.rol; 
+        const rawRole = user.rol_usuario || user.rol || user.id_rol || user.role; 
         
-        if (rawRole) {
+        if (rawRole !== undefined && rawRole !== null) {
           const rolNormalizado = String(rawRole).toLowerCase().trim();
-          console.log("--> 🤖 ROL DETECTADO:", rolNormalizado);
 
-          const rolesInternos = ['admin', 'administrador', 'personal', 'personal_salud', 'doctor', 'medico', 'enfermero'];
+          const rolesInternos = ['admin', 'administrador', 'personal', 'personal_salud', 'doctor', 'medico', 'enfermero', '1', '2'];
 
           if (rolesInternos.includes(rolNormalizado)) {
             setIsInternalUser(true);
+            const nombre = user.nombre_usuario || user.nombres || user.nombre || 'Colega';
             
-            // También corregimos el nombre: 'nombre_usuario' según tu log
-            const nombre = user.nombre_usuario || user.nombres || 'Colega';
-            
-            setMessages([{ 
-              sender: 'bot', 
-              text: `👋 Hola ${nombre}. \n\nSoy tu Asistente de Gestión.\nEstoy conectado a los documentos internos. ¿Qué necesitas consultar hoy?` 
-            }]);
-            return; // Salimos para no sobrescribir el mensaje
+            if (messages.length === 0) {
+              setMessages([{ 
+                sender: 'bot', 
+                text: `👋 Hola ${nombre}. \n\nSoy tu Asistente de Gestión.\nEstoy conectado a los documentos internos. ¿Qué necesitas consultar hoy?` 
+              }]);
+            }
+            return; 
           }
         }
       }
 
-      // Si no entra al IF de arriba, es modo público
-      console.log("--> MODO PÚBLICO (No se detectó rol administrativo)");
       setIsInternalUser(false);
-      setMessages([{ sender: 'bot', text: '¡Hola! Soy el asistente virtual de la Fundación. ¿En qué puedo ayudarte?' }]);
+      if (messages.length === 0) {
+        setMessages([{ sender: 'bot', text: '¡Hola! Soy el asistente virtual de la Fundación. ¿En qué puedo ayudarte?' }]);
+      }
     };
 
     verificarUsuario();
-  }, []);
+  }, [location.pathname]); 
 
   const handleToggle = () => setVisible(!visible);
 
@@ -119,13 +114,17 @@ export const ChatBotIA = () => {
       let respuesta = "";
 
       if (isInternalUser) {
-        // --- MODO INTERNO (Usamos ID real si existe) ---
+        // --- MODO INTERNO ---
         const userId = getCurrentUser()?.id_usuario || 'temp';
+        
+        // RESTAURADO A LAS VARIABLES ORIGINALES QUE FUNCIONAN CON TU BACKEND
         const res = await iaService.consultarAsistente({
-          mensaje: userText,
+          mensaje: userText, 
           sessionId: 'session-' + userId
         });
-        respuesta = res.data.success ? res.data.data.respuesta : "No encontré información en los documentos.";
+        
+        // RESTAURADO EL PARSEO ORIGINAL DE LA RESPUESTA
+        respuesta = res.data?.success ? res.data.data.respuesta : "No encontré información en los documentos.";
       } else {
         // --- MODO PÚBLICO ---
         respuesta = await enviarPreguntaAI(userText);
@@ -144,6 +143,11 @@ export const ChatBotIA = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, loading]);
 
+  // OCULTAR EN EL LOGIN (Asegurado después de todos los hooks)
+  if (location.pathname === '/login' || location.pathname === '/') {
+    return null; 
+  }
+
   return (
     <>
       <Fab 
@@ -157,14 +161,7 @@ export const ChatBotIA = () => {
 
       {visible && (
         <Paper elevation={6} sx={styles.chatContainer}>
-          <Box sx={{ 
-            p: 2, 
-            bgcolor: isInternalUser ? '#2e7d32' : '#1976d2', 
-            color: 'white',
-            display: 'flex',
-            alignItems: 'center',
-            gap: 1
-          }}>
+          <Box sx={{ p: 2, bgcolor: isInternalUser ? '#2e7d32' : '#1976d2', color: 'white', display: 'flex', alignItems: 'center', gap: 1 }}>
             {isInternalUser ? <SmartToyIcon /> : <ChatIcon />}
             <Typography variant="subtitle1" fontWeight="bold">
               {isInternalUser ? 'Asistente Interno' : 'Chat Fundación'}
@@ -178,12 +175,7 @@ export const ChatBotIA = () => {
                   <Avatar sx={{ width: 24, height: 24, bgcolor: msg.sender === 'user' ? 'primary.main' : (isInternalUser ? 'success.main' : 'secondary.main') }}>
                     {msg.sender === 'user' ? <PersonIcon fontSize="small"/> : <SmartToyIcon fontSize="small"/>}
                   </Avatar>
-                  <Paper sx={{ 
-                    p: 1.5, 
-                    maxWidth: '80%', 
-                    bgcolor: msg.sender === 'user' ? '#e3f2fd' : 'white',
-                    borderRadius: 2
-                  }}>
+                  <Paper sx={{ p: 1.5, maxWidth: '80%', bgcolor: msg.sender === 'user' ? '#e3f2fd' : 'white', borderRadius: 2 }}>
                     <Typography variant="body2" style={{ whiteSpace: 'pre-line' }}>{msg.text}</Typography>
                   </Paper>
                 </Stack>
@@ -194,14 +186,7 @@ export const ChatBotIA = () => {
           </Box>
 
           <Box component="form" onSubmit={handleSend} sx={{ p: 1, borderTop: '1px solid #ddd', bgcolor: 'white', display: 'flex', gap: 1 }}>
-            <TextField
-              fullWidth
-              size="small"
-              placeholder="Escribe aquí..."
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              disabled={loading}
-            />
+            <TextField fullWidth size="small" placeholder="Escribe aquí..." value={input} onChange={(e) => setInput(e.target.value)} disabled={loading} />
             <IconButton type="submit" color="primary" disabled={loading || !input.trim()}>
               <SendIcon />
             </IconButton>

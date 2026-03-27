@@ -154,8 +154,9 @@ function App() {
             <Route path="*" element={<Error404 />} />
           </Routes>
           </CombinedProviders>
+          <ChatBotIA/>
       </BrowserRouter>
-      <ChatBotIA/>
+      
     </div>
   );
 }

@@ -1,5 +1,5 @@
 const KnowledgeService = require('../../services/chatservidor.services/knowledge.service');
-const BotInternoService = require('../../services/chatservidor.services/bot_interno.service'); // (El servicio RAG que ya arreglamos)
+const BotInternoService = require('../../services/chatservidor.services/bot_interno.service'); // (El servicio RAG)
 
 const kService = new KnowledgeService();
 const chatService = new BotInternoService();

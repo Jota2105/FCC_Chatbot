@@ -28,7 +28,7 @@ const HistorialIASchema = {
     output_ia: { type: DataTypes.TEXT, allowNull: false },
     contexto_fuente: { type: DataTypes.TEXT, comment: 'IDs o Títulos de docs usados' },
     usuario_id: { type: DataTypes.INTEGER, allowNull: true },
-    feedback_util: { type: DataTypes.BOOLEAN, defaultValue: null }
+    
 };
 
 module.exports = { HistorialIA, HistorialIASchema };

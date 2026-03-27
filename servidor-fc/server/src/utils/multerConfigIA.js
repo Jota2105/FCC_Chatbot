@@ -4,7 +4,7 @@ const fs = require('fs');
 
 // 1. Definir dónde se guardarán los archivos
 // Se creará una carpeta 'uploads/ia_conocimiento' automáticamente
-const uploadDir = path.join(__dirname, '../../uploads/ia_conocimiento');
+const uploadDir = path.join(__dirname, '../uploads/conocimiento');
 if (!fs.existsSync(uploadDir)) {
     fs.mkdirSync(uploadDir, { recursive: true });
 }
@@ -34,7 +34,7 @@ const fileFilter = (req, file, cb) => {
 // 4. Exportar la configuración
 const uploadIA = multer({ 
     storage: storage,
-    limits: { fileSize: 10 * 1024 * 1024 }, // Límite de 10MB
+    limits: { fileSize: 20 * 1024 * 1024 }, // Límite de 20
     fileFilter: fileFilter
 });
 
