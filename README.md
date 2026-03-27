@@ -10,8 +10,52 @@ Instala lo siguiente en tu equipo:
 - **Node.js** v16+  
 - **NPM** v8+  
 - **PostgreSQL** v12+  
+- **pgvector** 
 
 ---
+
+1. ¿Qué es `pgvector` y por qué lo usamos?
+`pgvector` es una extensión open-source para PostgreSQL que permite almacenar vectores matemáticos (embeddings) generados por la API de OpenAI (`text-embedding-3-small`). Cuando un usuario hace una pregunta, el sistema busca en la base de datos los fragmentos de texto cuyo significado matemático sea más similar a la pregunta utilizando la distancia del coseno (`<=>`).
+
+### 2. Instalación de la Extensión `pgvector`
+
+Dependiendo de tu entorno de desarrollo o producción, debes instalar la extensión antes de ejecutar las migraciones del proyecto:
+
+#### Opción A: Usando Docker (Recomendado para desarrollo local)
+La forma más fácil de tener PostgreSQL con `pgvector` es usar la imagen oficial preconfigurada de Docker. Puedes levantar la base de datos ejecutando:
+
+```bash
+docker run --name fcc-postgres -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=tu_password -e POSTGRES_DB=fcc_db -p 5432:5432 -d pgvector/pgvector:pg16
+
+Opción B: Instalación en servidor Linux (Ubuntu/Debian)
+Si estás instalando PostgreSQL directamente en un servidor:
+
+Bash
+
+# 1. Instalar dependencias de compilación
+sudo apt install postgresql-server-dev-15 build-essential
+
+# 2. Clonar y compilar la extensión
+cd /tmp
+git clone --branch v0.6.0 [https://github.com/pgvector/pgvector.git](https://github.com/pgvector/pgvector.git)
+cd pgvector
+make
+sudo make install
+
+Una vez que el software de la extensión está instalado en el servidor, debes habilitarla dentro de la base de datos específica del proyecto (fcc_db).
+
+Abre tu gestor de base de datos (pgAdmin, DBeaver, o la terminal psql) y ejecuta el siguiente comando SQL:
+
+SQL
+
+CREATE EXTENSION IF NOT EXISTS vector;
+Para verificar que se instaló correctamente, ejecuta:
+
+SQL
+
+SELECT * FROM pg_extension WHERE extname = 'vector';
+
+
 
 ## 2. Clonar el repositorio o descomprime el ZIP
 
